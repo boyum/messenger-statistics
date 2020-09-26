@@ -6,7 +6,7 @@ export default {
   name: "messenger-statistics",
   input: "src/index.ts",
   output: {
-    file: "bundle.js",
+    file: "dist/bundle.js",
     format: "umd"
   },
   sourcemap: true,
