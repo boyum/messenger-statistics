@@ -19,7 +19,7 @@ readFiles(files);
 
 async function readFiles(files: string[]) {
   const startTime = Date.now();
-  console.log(`Started reading files at ${startTime}.`);
+  console.log(`Started reading files at ${new Date().toISOString()}.`);
 
   const conversations: FBConversation[] = await Promise.all(
     files
@@ -74,11 +74,11 @@ function countWords(messages: FBMessage[], words: string[]): { [word: string]: n
   );
 
   messages
-    .filter(message => Boolean(message.content))
     .map(message => message.content)
+    .filter(Boolean)
     .forEach(messageContent => {
       for (const word of words) {
-        if (messageContent.includes(word)) {
+        if (messageContent.toLowerCase().includes(word)) {
           wordCount[word]++;
         }
       }
