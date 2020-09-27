@@ -42,31 +42,38 @@ async function readFiles(files: string[]) {
 
   if (countedWords.length) {
     const wordCount = countWords(messages, countedWords);
-    console.info(`Number of times notable words were mentioned:\n${formatCounterObjects(wordCount, false)}\n`);
+    console.info(`Number of times notable words were mentioned:\n${formatCountedWords(wordCount, false)}\n`);
   }
 
   const participantMessageCount = countMessagesFromParticipants(messages, participants);
-  console.info(`Number of messages from participants:\n${formatCounterObjects(participantMessageCount)}\n`);
+  console.info(`Number of messages from participants:\n${formatCountedWords(participantMessageCount)}\n`);
 
   const participantPhotoCount = photoCount(messages, participants);
-  console.info(`Number of messages from participants with photos:\n${formatCounterObjects(participantPhotoCount)}\n`);
+  console.info(`Number of messages from participants with photos:\n${formatCountedWords(participantPhotoCount)}\n`);
 
   const participantVideoCount = videoCount(messages, participants);
-  console.info(`Number of messages from participants with videos:\n${formatCounterObjects(participantVideoCount)}\n`);
+  console.info(`Number of messages from participants with videos:\n${formatCountedWords(participantVideoCount)}\n`);
 
   const participantAudioMessageCount = audioCount(messages, participants);
-  console.info(`Number of messages from participants with audio messages:\n${formatCounterObjects(participantAudioMessageCount)}\n`)
+  console.info(`Number of messages from participants with audio messages:\n${formatCountedWords(participantAudioMessageCount)}\n`)
 
   const participantShoutMessageCount = countShouts(messages, participants);
-  console.info(`Number of times participants have shouted:\n${formatCounterObjects(participantShoutMessageCount)}\n`)
+  console.info(`Number of times participants have shouted:\n${formatCountedWords(participantShoutMessageCount)}\n`)
 
   const endTime = Date.now();
   console.log(`\nFinished reading files at ${endTime}.\nTotal process time: ${(endTime - startTime) / 1000} seconds.`);
 }
 
-function formatCounterObjects(object: CountedWords, showTotal: boolean = true): string {
-  const total = Object.entries(object).reduce((acc, [_, value]) => acc + value, 0);
-  return Object.entries(object).map(keyAndValue => keyAndValue.join(': ')).join('\n') + (showTotal ? `\nTotal: ${total}` : '');
+function formatCountedWords(words: CountedWords, showTotal: boolean = true): string {
+  const total = Object.entries(words).reduce((acc, [_, value]) => acc + value, 0);
+  const totalString = showTotal ? `Total: ${total}` : '';
+
+  const countedWordsFormatted =
+    Object.entries(words)
+      .map(([word, count]) => `${word}: ${count}`)
+      .join('\n');
+
+  return `${countedWordsFormatted}\n${totalString}`;
 }
 
 function countWords(messages: FBMessage[], words: string[]): CountedWords {
