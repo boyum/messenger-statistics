@@ -79,7 +79,8 @@ function countWords(messages: FBMessage[], words: string[]): CountedWords {
     .filter(Boolean)
     .forEach(messageContent => {
       for (const word of words) {
-        if (messageContent.toLowerCase().includes(word)) {
+        const foundWordInMessageContent = messageContent.toLowerCase().includes(word);
+        if (foundWordInMessageContent) {
           wordCount[word]++;
         }
       }
