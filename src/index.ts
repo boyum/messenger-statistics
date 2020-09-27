@@ -65,7 +65,7 @@ async function readFiles(files: string[]) {
 }
 
 function formatCountedWords(words: CountedWords, showTotal: boolean = true): string {
-  const total = Object.entries(words).reduce((acc, [_, value]) => acc + value, 0);
+  const total = Object.entries(words).reduce((sum, [_, count]) => sum + count, 0);
   const totalString = showTotal ? `Total: ${total}` : '';
 
   const countedWordsFormatted =
