@@ -4,6 +4,7 @@ import { promisify } from 'util';
 import { FBConversation } from './fb-types/FBConversation';
 import { FBMessage } from './fb-types/FBMessage';
 import { FBParticipant } from './fb-types/FBParticipant';
+import { CountedWord } from './types/CountedWord';
 
 const readFile = promisify(fs.readFile);
 
@@ -63,12 +64,12 @@ async function readFiles(files: string[]) {
   console.log(`\nFinished reading files at ${endTime}.\nTotal process time: ${(endTime - startTime) / 1000} seconds.`);
 }
 
-function formatCounterObjects(object: { [key: string]: number }, showTotal: boolean = true): string {
+function formatCounterObjects(object: CountedWord, showTotal: boolean = true): string {
   const total = Object.entries(object).reduce((acc, [_, value]) => acc + value, 0);
   return Object.entries(object).map(keyAndValue => keyAndValue.join(': ')).join('\n') + (showTotal ? `\nTotal: ${total}` : '');
 }
 
-function countWords(messages: FBMessage[], words: string[]): { [word: string]: number } {
+function countWords(messages: FBMessage[], words: string[]): CountedWord {
   const wordCount = Object.fromEntries(
     words.map(word => ([word, 0]))
   );
@@ -87,7 +88,7 @@ function countWords(messages: FBMessage[], words: string[]): { [word: string]: n
   return wordCount;
 }
 
-function countMessagesFromParticipants(messages: FBMessage[], participants: FBParticipant[]): { [name: string]: number } {
+function countMessagesFromParticipants(messages: FBMessage[], participants: FBParticipant[]): CountedWord {
   const participantsCounter = Object.fromEntries(
     participants.map(participant => ([participant.name, 0]))
   );
@@ -99,22 +100,22 @@ function countMessagesFromParticipants(messages: FBMessage[], participants: FBPa
   return participantsCounter;
 }
 
-function photoCount(messages: FBMessage[], participants: FBParticipant[]): { [name: string]: number } {
+function photoCount(messages: FBMessage[], participants: FBParticipant[]): CountedWord {
   const messagesWithPhotos = messages.filter(message => Boolean(message.photos));
   return countMessagesFromParticipants(messagesWithPhotos, participants);
 }
 
-function videoCount(messages: FBMessage[], participants: FBParticipant[]): { [name: string]: number } {
+function videoCount(messages: FBMessage[], participants: FBParticipant[]): CountedWord {
   const messagesWithVideo = messages.filter(message => Boolean(message.videos));
   return countMessagesFromParticipants(messagesWithVideo, participants);
 }
 
-function audioCount(messages: FBMessage[], participants: FBParticipant[]): { [name: string]: number } {
+function audioCount(messages: FBMessage[], participants: FBParticipant[]): CountedWord {
   const messagesWithAudio = messages.filter(message => Boolean(message.audio_files));
   return countMessagesFromParticipants(messagesWithAudio, participants);
 }
 
-function countShouts(messages: FBMessage[], participants: FBParticipant[]): { [name: string]: number } {
+function countShouts(messages: FBMessage[], participants: FBParticipant[]): CountedWord {
   const messagesWithOnlyShouts = messages.filter(message => message.content === '\u00f0\u009f\u0097\u00a3');
   return countMessagesFromParticipants(messagesWithOnlyShouts, participants);
 }
