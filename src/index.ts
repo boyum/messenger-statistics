@@ -77,23 +77,19 @@ function formatCountedWords(words: CountedWords, showTotal: boolean = true): str
 }
 
 function countWords(messages: FBMessage[], words: string[]): CountedWords {
-  const wordCount = Object.fromEntries(
-    words.map(word => ([word, 0]))
-  );
-
-  messages
+  return messages
     .map(message => message.content)
     .filter(Boolean)
-    .forEach(messageContent => {
+    .reduce((countedWords, messageContent) => {
       for (const word of words) {
         const foundWordInMessageContent = messageContent.toLowerCase().includes(word);
         if (foundWordInMessageContent) {
-          wordCount[word]++;
+          countedWords[word] ? countedWords[word]++ : 1;
         }
       }
-    });
 
-  return wordCount;
+      return countedWords;
+    }, {} as CountedWords);
 }
 
 function countMessagesFromParticipants(messages: FBMessage[], participants: FBParticipant[]): CountedWords {
