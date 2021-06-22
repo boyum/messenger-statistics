@@ -9,7 +9,7 @@ pull_request_rules:
 
   - name: Automatic merge for Depfu minor and patch pull requests
     conditions:
-      - base=main
+      - base=master
       - label=depfu
       - files~=package(-lock)?.json$
       - author=depfu[bot]
