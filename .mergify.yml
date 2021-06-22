@@ -1,0 +1,19 @@
+pull_request_rules:
+  - name: automatic approval for depfu pull requests
+    conditions:
+      - author=depfu[bot]
+    actions:
+      review:
+        type: APPROVE
+        message: Automatically approving depfu
+
+  - name: Automatic merge for Depfu minor and patch pull requests
+    conditions:
+      - base=main
+      - label=depfu
+      - files~=package(-lock)?.json$
+      - author=depfu[bot]
+      - title~=(\(minor\)|\(patch\))$
+    actions:
+      merge:
+        method: squash
