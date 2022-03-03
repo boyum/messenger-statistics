@@ -14,6 +14,9 @@ export type ConversationStatistics = {
   participantPhotoCount: Record<string, number>;
   participantVideoCount: Record<string, number>;
   participantAudioMessageCount: Record<string, number>;
+  totalPhotoCount: number;
+  totalVideoCount: number;
+  totalAudioMessageCount: number;
   messagesPerDay: Record<string, Record<number, number>>;
   messagesPerDate: Record<string, Record<number, number>>;
   messagesPerMonth: Record<string, Record<number, number>>;
@@ -35,6 +38,9 @@ export function readConversations(
     participantPhotoCount: {},
     participantVideoCount: {},
     participantAudioMessageCount: {},
+    totalPhotoCount: 0,
+    totalVideoCount: 0,
+    totalAudioMessageCount: 0,
     messagesPerDay: {},
     messagesPerDate: {},
     messagesPerMonth: {},
@@ -70,6 +76,16 @@ export function readConversations(
   convoStats.participantPhotoCount = photoCount(messages, participants);
   convoStats.participantVideoCount = videoCount(messages, participants);
   convoStats.participantAudioMessageCount = audioCount(messages, participants);
+
+  convoStats.totalPhotoCount = getMessagesWithPhoto(messages).flatMap(
+    message => message.photos,
+  ).length;
+  convoStats.totalVideoCount = getMessagesWithVideo(messages).flatMap(
+    message => message.videos,
+  ).length;
+  convoStats.totalAudioMessageCount = getMessagesWithAudio(messages).flatMap(
+    message => message.audio_files,
+  ).length;
 
   convoStats.messagesPerDay = countMessagesPerDay(messages, participants);
   convoStats.messagesPerDate = countMessagesPerDate(messages, participants);
@@ -140,31 +156,39 @@ function countMessagesFromParticipants(
   return participantsCounter;
 }
 
+function getMessagesWithPhoto(messages: Array<FBMessage>): Array<FBMessage> {
+  return messages.filter(message => Boolean(message.photos));
+}
+
 function photoCount(
   messages: Array<FBMessage>,
   participants: Array<FBParticipant>,
 ): CountedWords {
-  const messagesWithPhotos = messages.filter(message =>
-    Boolean(message.photos),
-  );
+  const messagesWithPhotos = getMessagesWithPhoto(messages);
   return countMessagesFromParticipants(messagesWithPhotos, participants);
+}
+
+function getMessagesWithVideo(messages: Array<FBMessage>): Array<FBMessage> {
+  return messages.filter(message => Boolean(message.videos));
 }
 
 function videoCount(
   messages: Array<FBMessage>,
   participants: Array<FBParticipant>,
 ): CountedWords {
-  const messagesWithVideo = messages.filter(message => Boolean(message.videos));
+  const messagesWithVideo = getMessagesWithVideo(messages);
   return countMessagesFromParticipants(messagesWithVideo, participants);
+}
+
+function getMessagesWithAudio(messages: Array<FBMessage>): Array<FBMessage> {
+  return messages.filter(message => Boolean(message.audio_files));
 }
 
 function audioCount(
   messages: Array<FBMessage>,
   participants: Array<FBParticipant>,
 ): CountedWords {
-  const messagesWithAudio = messages.filter(message =>
-    Boolean(message.audio_files),
-  );
+  const messagesWithAudio = getMessagesWithAudio(messages);
   return countMessagesFromParticipants(messagesWithAudio, participants);
 }
 

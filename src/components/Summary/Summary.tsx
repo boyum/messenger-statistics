@@ -53,6 +53,12 @@ export const Summary: FC<SummaryProps> = ({ stats }) => {
             })}
         </ul>
       </p> */}
+      <p>
+        In total, <b>{stats.totalPhotoCount}</b> images,{" "}
+        <b>{stats.totalVideoCount}</b> videos and{" "}
+        <b>{stats.totalAudioMessageCount}</b> audio clips were sent in the
+        conversation.
+      </p>
     </div>
   );
 };
