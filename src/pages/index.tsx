@@ -55,6 +55,12 @@ const Home: NextPage = () => {
         {convoStats && (
           <>
             <Summary stats={convoStats} />
+
+            <PeriodicChart
+              periodType="total"
+              data={convoStats.messagesInTotal}
+            />
+
             <div style={{ display: "flex" }}>
               <PeriodicChart
                 periodType="day"

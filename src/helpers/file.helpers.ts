@@ -20,6 +20,7 @@ export type ConversationStatistics = {
   messagesPerDay: Record<string, Record<number, number>>;
   messagesPerDate: Record<string, Record<number, number>>;
   messagesPerMonth: Record<string, Record<number, number>>;
+  messagesInTotal: Record<string, Record<number, number>>;
   wordOccurrences: Record<string, number>;
 };
 
@@ -44,13 +45,14 @@ export function readConversations(
     messagesPerDay: {},
     messagesPerDate: {},
     messagesPerMonth: {},
+    messagesInTotal: {},
     start: new Date(),
     end: new Date(),
     wordOccurrences: {},
   };
 
   const startTime = Date.now();
-  console.log(`Started reading files at ${new Date().toISOString()}.`);
+  console.info(`Started reading files at ${new Date().toISOString()}.`);
 
   const participants: Array<FBParticipant> = conversations[0].participants.map(
     participant => ({
@@ -90,6 +92,7 @@ export function readConversations(
   convoStats.messagesPerDay = countMessagesPerDay(messages, participants);
   convoStats.messagesPerDate = countMessagesPerDate(messages, participants);
   convoStats.messagesPerMonth = countMessagesPerMonth(messages, participants);
+  convoStats.messagesInTotal = countMessagesInTotal(messages, participants);
 
   convoStats.numberOfMessages = messages.length;
 
@@ -121,8 +124,6 @@ function groupMessagesByParticipants(
   messages: Array<FBMessage>,
   participants: Array<FBParticipant>,
 ): Record<string, Array<FBMessage>> {
-  console.log({ participants });
-
   const group: Record<string, Array<FBMessage>> = Object.fromEntries(
     participants.map(participant => [participant.name, []]),
   );
@@ -131,10 +132,6 @@ function groupMessagesByParticipants(
     .map(message => message)
     .forEach(message => {
       const name = message.sender_name;
-
-      if (!group[name]) {
-        console.log({ group, message });
-      }
       return group[name].push(message);
     });
 
@@ -270,6 +267,35 @@ function countMessagesPerMonth(
       }
 
       return [participant, months];
+    }),
+  );
+
+  return newGroups;
+}
+
+function countMessagesInTotal(
+  messages: Array<FBMessage>,
+  participants: Array<FBParticipant>,
+): Record<string, Record<number, number>> {
+  const groups = groupMessagesByParticipants(messages, participants);
+  const msInThreeDays = 3 * 24 * 60 * 60 * 1000;
+
+  const newGroups = Object.fromEntries(
+    Object.entries(groups).map(([participant, messages]) => {
+      const dates: Record<string, number> = {};
+
+      for (const message of messages) {
+        const date =
+          Math.floor(message.timestamp_ms / msInThreeDays) * msInThreeDays;
+
+        if (!dates[date]) {
+          dates[date] = 0;
+        }
+
+        dates[date] += 1;
+      }
+
+      return [participant, dates];
     }),
   );
 

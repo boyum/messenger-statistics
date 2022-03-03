@@ -12,12 +12,17 @@ type PeriodicChartProps = {
 export const PeriodicChart: FC<PeriodicChartProps> = ({ data, periodType }) => {
   const chartData = periodicDataToChartData(data, periodType);
 
-  const primaryAxis = useMemo<AxisOptions<LineChartData>>(
-    () => ({
+  const primaryAxis = useMemo<AxisOptions<LineChartData>>(() => {
+    const axis: AxisOptions<LineChartData> = {
       getValue: datum => datum.primary as unknown as Date,
-    }),
-    [],
-  );
+    };
+
+    if (periodType === "total") {
+      axis.scaleType = "time";
+    }
+
+    return axis;
+  }, [periodType]);
 
   const secondaryAxes = useMemo<AxisOptions<LineChartData>[]>(
     () => [
@@ -38,7 +43,7 @@ export const PeriodicChart: FC<PeriodicChartProps> = ({ data, periodType }) => {
               position: "relative",
               minWidth: "300px",
               width: "100%",
-              aspectRatio: "1",
+              aspectRatio: "2 / 1",
             }}
           >
             <Chart

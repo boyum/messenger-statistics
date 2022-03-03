@@ -1,1 +1,1 @@
-export type PeriodType = "day" | "month" | "date";
+export type PeriodType = "day" | "month" | "date" | "total";

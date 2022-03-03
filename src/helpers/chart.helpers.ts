@@ -37,6 +37,9 @@ const formatDate = (periodType: PeriodType, value: number) => {
       // @ts-ignore
       return monthNames[value] ?? value;
 
+    case "total":
+      return new Date(value);
+
     default:
       return value;
   }

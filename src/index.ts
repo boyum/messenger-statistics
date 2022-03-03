@@ -24,7 +24,7 @@ readFiles(files);
 
 async function readFiles(files: string[]) {
   const startTime = Date.now();
-  console.log(`Started reading files at ${new Date().toISOString()}.`);
+  console.info(`Started reading files at ${new Date().toISOString()}.`);
 
   const conversations: FBConversation[] = await Promise.all(
     files
@@ -39,7 +39,7 @@ async function readFiles(files: string[]) {
       .map(async fileContents => JSON.parse(await fileContents)),
   );
 
-  console.log(
+  console.info(
     `All files read in ${(Date.now() - startTime) / 1000} seconds.\n`,
   );
 
@@ -103,7 +103,7 @@ async function readFiles(files: string[]) {
   );
 
   const endTime = Date.now();
-  console.log(
+  console.info(
     `\nFinished reading files at ${endTime}.\nTotal process time: ${
       (endTime - startTime) / 1000
     } seconds.`,
