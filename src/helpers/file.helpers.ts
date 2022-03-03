@@ -117,7 +117,7 @@ export function readConversations(
 }
 
 function fixLetters(str: string): string {
-  return str.replaceAll("Ã¸", "ø");
+  return str.replaceAll("Ã¦", "æ").replaceAll("Ã¸", "ø").replaceAll("Ã¥", "å");
 }
 
 function groupMessagesByParticipants(
