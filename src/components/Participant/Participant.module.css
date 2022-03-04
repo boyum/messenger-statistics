@@ -1,0 +1,11 @@
+.participant::before {
+  background-color: var(--color);
+  border: 1px solid #555;
+  border-radius: 0.25em;
+  content: "";
+  display: inline-block;
+  height: 0.75em;
+  margin-bottom: -1px;
+  margin-right: 0.25em;
+  width: 0.75em;
+}

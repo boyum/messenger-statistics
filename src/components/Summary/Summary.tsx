@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { ConversationStatistics } from "../../helpers/file.helpers";
+import { Participants } from "../Participants/Participants";
 import styles from "./Summary.module.css";
 
 type SummaryProps = {
@@ -25,11 +26,10 @@ export const Summary: FC<SummaryProps> = ({ stats }) => {
     <div className={styles.container}>
       <p>
         We have analysed the conversation between{" "}
-        <b>{stats.participants.slice(0, -1).join(", ")}</b> and{" "}
-        <b>{stats.participants.slice(-1)}</b>, and have found out that there has
-        been sent <b>{numberFmt.format(numberOfMessages)}</b> messages in the{" "}
-        <b>{totalNumberOfDays}</b> days between <b>{dateFmt.format(start)}</b>{" "}
-        and <b>{dateFmt.format(end)}</b>
+        <Participants participants={stats.participants} />, and have found out
+        that there has been sent <b>{numberFmt.format(numberOfMessages)}</b>{" "}
+        messages in the <b>{totalNumberOfDays}</b> days between{" "}
+        <b>{dateFmt.format(start)}</b> and <b>{dateFmt.format(end)}</b>
         {messagesPerDay > 0 ? (
           <>
             , which means that about <b>{messagesPerDay}</b> messages are sent
