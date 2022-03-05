@@ -7,10 +7,11 @@
   background-color: var(--color);
   border: 1px solid #555;
   border-radius: 0.25em;
+  bottom: -1px;
   content: "";
   display: inline-block;
-  height: 0.75em;
-  margin-bottom: -1px;
+  height: 0.73em;
   margin-right: 0.25em;
-  width: 0.75em;
+  position: relative;
+  width: 0.73em;
 }
