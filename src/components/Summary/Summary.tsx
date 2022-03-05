@@ -33,12 +33,12 @@ export const Summary: FC<SummaryProps> = ({ stats }) => {
         {messagesPerDay > 0 ? (
           <>
             , which means that about <b>{messagesPerDay}</b> messages are sent
-            per day.{" "}
+            per day.
           </>
         ) : (
           <>.</>
         )}
-        <b>{stats.numberOfCapsLockMessages}</b> of these messages were written
+        <b> {stats.numberOfCapsLockMessages}</b> of these messages were written
         in all caps.
       </p>
       {/* <p>
