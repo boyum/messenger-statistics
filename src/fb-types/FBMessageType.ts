@@ -1,3 +1,3 @@
 export enum FBMessageType {
-  Generic = 'Generic'
+  Generic = "Generic",
 }

@@ -1,5 +1,5 @@
-import { FBMessage } from './FBMessage';
-import { FBParticipant } from './FBParticipant';
+import { FBMessage } from "./FBMessage";
+import { FBParticipant } from "./FBParticipant";
 
 export type FBConversation = {
   participants: FBParticipant[];
