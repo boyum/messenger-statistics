@@ -128,12 +128,10 @@ function groupMessagesByParticipants(
     participants.map(participant => [participant.name, []]),
   );
 
-  messages
-    .map(message => message)
-    .forEach(message => {
-      const name = message.sender_name;
-      return group[name].push(message);
-    });
+  for (const message of messages) {
+    const name = message.sender_name;
+    group[name].push(message);
+  }
 
   return group;
 }
