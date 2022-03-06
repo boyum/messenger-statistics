@@ -129,9 +129,11 @@ export function readConversations(
   convoStats.start = new Date(Math.min(...timestamps));
   convoStats.end = new Date(Math.max(...timestamps));
 
-  const allWords = messages.map(message => message.content).filter(isDefined);
-  // convoStats.wordOccurrences = countWords(allWords.join(" "));
-  convoStats.numberOfCapsLockMessages = allWords.filter(word =>
+  const allTextMessages = messages
+    .map(message => message.content)
+    .filter(isDefined);
+
+  convoStats.numberOfCapsLockMessages = allTextMessages.filter(word =>
     messageIsAllCaps(word),
   ).length;
 
@@ -142,12 +144,7 @@ export function readConversations(
     } seconds.`,
   );
 
-  convoStats.emojiOccurrences = countEmoji(
-    messages
-      .map(message => message.content)
-      .filter(isDefined)
-      .join(" "),
-  );
+  convoStats.emojiOccurrences = countEmoji(allTextMessages.join(" "));
 
   return convoStats;
 }
@@ -359,7 +356,8 @@ function countCharacterSequences(
 function countEmoji(textContent: string): Record<string, number> {
   const emojiOccurrences = textContent.match(/\p{Emoji_Presentation}/gu);
 
-  if (!emojiOccurrences || emojiOccurrences.length === 0) {
+  const noEmoji = !emojiOccurrences || emojiOccurrences.length === 0;
+  if (noEmoji) {
     return {};
   }
 
