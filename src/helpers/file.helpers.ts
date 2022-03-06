@@ -1,3 +1,4 @@
+import { decode } from "utf8";
 import { FBConversation } from "../fb-types/FBConversation";
 import { FBMessage } from "../fb-types/FBMessage";
 import { FBParticipant } from "../fb-types/FBParticipant";
@@ -21,6 +22,7 @@ export type ConversationStatistics = {
   messagesPerMonth: Record<string, Record<number, number>>;
   messagesInTotal: Record<string, Record<number, number>>;
   wordOccurrences: Record<string, number>;
+  emojiOccurrences: Record<string, number>;
 };
 
 function isDefined<T>(value: T | null | undefined): value is T {
@@ -28,10 +30,39 @@ function isDefined<T>(value: T | null | undefined): value is T {
 }
 
 export async function parseFile(file: File): Promise<FBConversation> {
-  const decoder = new TextDecoder("utf-8");
-  const decodedMessage = decoder.decode(await file.arrayBuffer());
+  const str = await file.text();
 
-  return JSON.parse(decodedMessage) as FBConversation;
+  const fileWithEscapedUtf8Strings = str.replace(
+    /((\\u[0-9a-fA-F]{4}){1,4})/g,
+    value => {
+      const unescaped = eval(`"${value}"`);
+
+      let decoded;
+      try {
+        decoded = decode(unescaped);
+      } catch {
+        decoded = unescaped;
+      }
+
+      return decoded;
+    },
+  );
+
+  // const fileWithEscapedUtf8Strings = eval(`"${str}"`);
+
+  const conversation = JSON.parse(fileWithEscapedUtf8Strings) as FBConversation;
+  // conversation.title = decode(conversation.title);
+  // conversation.participants = conversation.participants.map(participant => ({
+  //   ...participant,
+  //   name: decode(participant.name),
+  // }));
+  // conversation.messages = conversation.messages.map(message => ({
+  //   ...message,
+  //   sender_name: decode(message.sender_name),
+  //   content: message.content ? decode(message.content) : undefined,
+  // }));
+
+  return conversation;
 }
 
 export function readConversations(
@@ -55,24 +86,16 @@ export function readConversations(
     start: new Date(),
     end: new Date(),
     wordOccurrences: {},
+    emojiOccurrences: {},
   };
 
   const startTime = Date.now();
   console.info(`Started reading files at ${new Date().toISOString()}.`);
 
-  const participants: Array<FBParticipant> = conversations[0].participants.map(
-    participant => ({
-      ...participant,
-      name: fixLetters(participant.name),
-    }),
+  const participants: Array<FBParticipant> = conversations[0].participants;
+  const messages: Array<FBMessage> = conversations.flatMap(
+    conversation => conversation.messages,
   );
-  const messages: Array<FBMessage> = conversations
-    .flatMap(conversation => conversation.messages)
-    .map(message => ({
-      ...message,
-      sender_name: fixLetters(message.sender_name),
-    }));
-
   console.log({ messages });
 
   convoStats.participants = participants.map(participant => participant.name);
@@ -120,11 +143,14 @@ export function readConversations(
     } seconds.`,
   );
 
-  return convoStats;
-}
+  convoStats.emojiOccurrences = countEmoji(
+    messages
+      .map(message => message.content)
+      .filter(isDefined)
+      .join(" "),
+  );
 
-function fixLetters(str: string): string {
-  return str.replaceAll("Ã¦", "æ").replaceAll("Ã¸", "ø").replaceAll("Ã¥", "å");
+  return convoStats;
 }
 
 function groupMessagesByParticipants(
@@ -305,4 +331,45 @@ function countMessagesInTotal(
   );
 
   return newGroups;
+}
+
+function countCharacterSequences(
+  textContent: string,
+  sequencesToCount: Array<string>,
+): Record<string, number> {
+  if (sequencesToCount.length < 1) {
+    return {};
+  }
+
+  const counter = Object.fromEntries(
+    sequencesToCount.map(sequence => [sequence, 0]),
+  );
+
+  for (const sequence of sequencesToCount) {
+    const regex = new RegExp(sequence, "ig");
+    const sequenceCount = textContent.match(regex)?.length ?? 0;
+
+    counter[sequence] = sequenceCount;
+  }
+
+  console.log({ counter });
+
+  return Object.fromEntries(
+    Object.entries(counter).sort((a, b) => b[1] - a[1]),
+  );
+}
+
+function countEmoji(textContent: string): Record<string, number> {
+  const emojiOccurrences = textContent.match(/\p{Emoji_Presentation}/gu);
+
+  console.log({ emojiOccurrences });
+
+  if (!emojiOccurrences || emojiOccurrences.length === 0) {
+    return {};
+  }
+
+  const usedEmoji = [...new Set(emojiOccurrences)];
+
+  console.log({ usedEmoji });
+  return countCharacterSequences(emojiOccurrences.join(""), usedEmoji);
 }

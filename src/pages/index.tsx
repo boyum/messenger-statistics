@@ -22,6 +22,8 @@ const Home: NextPage = () => {
       Array.from(files).map(async file => parseFile(file)),
     );
 
+    console.log({conversations})
+
     setConvoStats(readConversations(conversations));
   }, []);
 

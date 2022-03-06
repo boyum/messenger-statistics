@@ -53,6 +53,18 @@ export const Summary: FC<SummaryProps> = ({ stats }) => {
             })}
         </ul>
       </p> */}
+      <div>
+        The most used emoji were:
+        <ul>
+          {Object.entries(stats.emojiOccurrences)
+            .slice(0, 5)
+            .map(([word, count]) => (
+              <li key={word}>
+                <b>{word} :</b> {count}
+              </li>
+            ))}
+        </ul>
+      </div>
       <p>
         In total, <b>{stats.totalPhotoCount}</b> images,{" "}
         <b>{stats.totalVideoCount}</b> videos and{" "}
