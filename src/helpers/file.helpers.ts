@@ -96,7 +96,6 @@ export function readConversations(
   const messages: Array<FBMessage> = conversations.flatMap(
     conversation => conversation.messages,
   );
-  console.log({ messages });
 
   convoStats.participants = participants.map(participant => participant.name);
 
@@ -352,8 +351,6 @@ function countCharacterSequences(
     counter[sequence] = sequenceCount;
   }
 
-  console.log({ counter });
-
   return Object.fromEntries(
     Object.entries(counter).sort((a, b) => b[1] - a[1]),
   );
@@ -362,14 +359,11 @@ function countCharacterSequences(
 function countEmoji(textContent: string): Record<string, number> {
   const emojiOccurrences = textContent.match(/\p{Emoji_Presentation}/gu);
 
-  console.log({ emojiOccurrences });
-
   if (!emojiOccurrences || emojiOccurrences.length === 0) {
     return {};
   }
 
   const usedEmoji = [...new Set(emojiOccurrences)];
 
-  console.log({ usedEmoji });
   return countCharacterSequences(emojiOccurrences.join(""), usedEmoji);
 }

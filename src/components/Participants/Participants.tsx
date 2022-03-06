@@ -38,8 +38,6 @@ export const Participants: FC<ParticipantsProps> = ({ participants }) => {
         const isSecondToLast = index === participants.length - 2;
         const suffix = isLast ? null : isSecondToLast ? " and " : ", ";
 
-        console.log("participant", { name });
-
         return (
           <Fragment key={name}>
             <Participant name={name} color={getColor(index)} />
