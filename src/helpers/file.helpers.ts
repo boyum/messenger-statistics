@@ -2,7 +2,6 @@ import { FBConversation } from "../fb-types/FBConversation";
 import { FBMessage } from "../fb-types/FBMessage";
 import { FBParticipant } from "../fb-types/FBParticipant";
 import { CountedWords } from "../types/CountedWords";
-import countWords from "count-words-occurrence";
 
 export type ConversationStatistics = {
   participants: Array<string>;
@@ -24,12 +23,21 @@ export type ConversationStatistics = {
   wordOccurrences: Record<string, number>;
 };
 
+const encoding = "utf-8";
+
 function isDefined<T>(value: T | null | undefined): value is T {
   return value != null;
 }
 
+export async function parseFile(file: File): Promise<FBConversation> {
+  const decoder = new TextDecoder("utf-8");
+  const decodedMessage = decoder.decode(await file.arrayBuffer());
+
+  return JSON.parse(decodedMessage) as FBConversation;
+}
+
 export function readConversations(
-  conversations: FBConversation[],
+  conversations: Array<FBConversation>,
 ): ConversationStatistics {
   const convoStats: ConversationStatistics = {
     participants: [],
@@ -67,9 +75,10 @@ export function readConversations(
       sender_name: fixLetters(message.sender_name),
     }));
 
+  console.log({ messages });
+
   convoStats.participants = participants.map(participant => participant.name);
 
-  // convoStats.messages = messages;
   convoStats.participantMessageCount = countMessagesFromParticipants(
     messages,
     participants,

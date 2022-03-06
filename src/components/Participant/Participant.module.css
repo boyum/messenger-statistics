@@ -1,6 +1,6 @@
 .participant {
   align-items: baseline;
-  display: flex;
+  display: inline-flex;
 }
 
 .participant::before {

@@ -1,4 +1,4 @@
-import { FC, useCallback } from "react";
+import { FC, Fragment, useCallback } from "react";
 import { Participant } from "../Participant/Participant";
 
 // https://github.com/TanStack/react-charts/blob/beta/src/components/Chart.tsx#L40-L57
@@ -33,15 +33,20 @@ export const Participants: FC<ParticipantsProps> = ({ participants }) => {
 
   return (
     <>
-      {participants.map((name, index) => (
-        <Participant
-          key={name}
-          name={name}
-          color={getColor(index)}
-          isSecondToLast={index === participants.length - 2}
-          isLast={index === participants.length - 1}
-        />
-      ))}
+      {participants.map((name, index) => {
+        const isLast = index === participants.length - 1;
+        const isSecondToLast = index === participants.length - 2;
+        const suffix = isLast ? null : isSecondToLast ? " and " : ", ";
+
+        console.log("participant", { name });
+
+        return (
+          <Fragment key={name}>
+            <Participant name={name} color={getColor(index)} />
+            {suffix ? suffix : ""}
+          </Fragment>
+        );
+      })}
     </>
   );
 };

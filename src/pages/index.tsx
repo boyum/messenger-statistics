@@ -3,9 +3,9 @@ import Head from "next/head";
 import { useCallback, useState } from "react";
 import { PeriodicChart } from "../components/PeriodicChart/PeriodicChart";
 import { Summary } from "../components/Summary/Summary";
-import { FBConversation } from "../fb-types/FBConversation";
 import {
   ConversationStatistics,
+  parseFile,
   readConversations,
 } from "../helpers/file.helpers";
 import styles from "../styles/Home.module.css";
@@ -18,12 +18,8 @@ const Home: NextPage = () => {
       return;
     }
 
-    const fileContents = await Promise.all(
-      Array.from(files).map(file => file.text()),
-    );
-
-    const conversations = fileContents.map(
-      file => JSON.parse(file) as FBConversation,
+    const conversations = await Promise.all(
+      Array.from(files).map(async file => parseFile(file)),
     );
 
     setConvoStats(readConversations(conversations));
