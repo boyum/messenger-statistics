@@ -19,7 +19,7 @@
     "utf8": "^3.0.0"
   },
   "devDependencies": {
-    "@types/node": "18.11.13",
+    "@types/node": "18.11.15",
     "@types/react": "^18.0.26",
     "@types/utf8": "^3.0.1",
     "eslint": "8.29.0",
