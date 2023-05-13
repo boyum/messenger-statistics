@@ -1,5 +1,5 @@
-import { FC, useMemo } from "react";
-import { AxisOptions, Chart, UserSerie } from "react-charts";
+import { FC, lazy, useMemo } from "react";
+import type { AxisOptions } from "react-charts";
 import { periodicDataToChartData } from "../../helpers/chart.helpers";
 import { LineChartData } from "../../types/LineChartData";
 import { PeriodType } from "../../types/PeriodType";
@@ -8,6 +8,10 @@ type PeriodicChartProps = {
   data: Record<string, Record<number, number>>;
   periodType: PeriodType;
 };
+
+const Chart = lazy(() =>
+  import("react-charts").then(m => ({ default: m.Chart })),
+);
 
 export const PeriodicChart: FC<PeriodicChartProps> = ({ data, periodType }) => {
   const chartData = periodicDataToChartData(data, periodType);
@@ -49,8 +53,8 @@ export const PeriodicChart: FC<PeriodicChartProps> = ({ data, periodType }) => {
             <Chart
               options={{
                 data: chartData,
-                primaryAxis,
-                secondaryAxes,
+                primaryAxis: primaryAxis as AxisOptions<unknown>,
+                secondaryAxes: secondaryAxes as AxisOptions<unknown>[],
               }}
             />
           </div>

@@ -1,4 +1,4 @@
-import { UserSerie } from "react-charts";
+import type { UserSerie } from "react-charts";
 import { LineChartData } from "../types/LineChartData";
 import { PeriodType } from "../types/PeriodType";
 
