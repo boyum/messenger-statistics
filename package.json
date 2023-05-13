@@ -12,19 +12,21 @@
   },
   "dependencies": {
     "count-words-occurrence": "^1.0.0",
-    "next": "13.3.1",
+    "next": "13.4.2",
     "react": "^18.2.0",
-    "react-charts": "^3.0.0-beta.35",
+    "react-charts": "^3.0.0-beta.54",
     "react-dom": "^18.2.0",
     "utf8": "^3.0.0"
   },
   "devDependencies": {
-    "@types/node": "18.16.3",
+    "@types/node": "20.1.4",
     "@types/react": "^18.2.6",
     "@types/utf8": "^3.0.1",
     "eslint": "8.40.0",
-    "eslint-config-next": "13.3.1",
+    "eslint-config-next": "13.4.2",
     "prettier": "^2.8.8",
+    "prettier-config": "github:boyum/prettier-config",
     "typescript": "5.0.4"
-  }
+  },
+  "prettier": "prettier-config"
 }
