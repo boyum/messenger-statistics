@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "count-words-occurrence": "^1.0.0",
-    "next": "13.4.12",
+    "next": "13.4.13",
     "react": "^18.2.0",
     "react-charts": "^3.0.0-beta.54",
     "react-dom": "^18.2.0",
@@ -23,7 +23,7 @@
     "@types/react": "^18.2.18",
     "@types/utf8": "^3.0.1",
     "eslint": "8.46.0",
-    "eslint-config-next": "13.4.12",
+    "eslint-config-next": "13.4.13",
     "prettier": "^3.0.1",
     "prettier-config": "github:boyum/prettier-config",
     "typescript": "5.1.5"
