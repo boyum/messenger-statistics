@@ -30,11 +30,11 @@ const monthNames = {
 const formatDate = (periodType: PeriodType, value: number) => {
   switch (periodType) {
     case "day":
-      // @ts-ignore
+      // @ts-expect-error
       return dayNames[value] ?? value;
 
     case "month":
-      // @ts-ignore
+      // @ts-expect-error
       return monthNames[value] ?? value;
 
     case "total":

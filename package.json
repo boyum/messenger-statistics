@@ -12,21 +12,21 @@
   },
   "dependencies": {
     "count-words-occurrence": "^1.0.0",
-    "next": "13.5.6",
-    "react": "^18.2.0",
+    "next": "14.0.4",
     "react-charts": "^3.0.0-beta.54",
-    "react-dom": "^18.2.0",
     "utf8": "^3.0.0"
   },
   "devDependencies": {
-    "@types/node": "20.1.4",
-    "@types/react": "^18.2.20",
-    "@types/utf8": "^3.0.1",
-    "eslint": "8.46.0",
-    "eslint-config-next": "13.5.6",
-    "prettier": "^3.0.1",
+    "@types/node": "20.10.7",
+    "@types/react": "^18.2.47",
+    "@types/utf8": "^3.0.3",
+    "@typescript-eslint/eslint-plugin": "^6.18.0",
+    "@typescript-eslint/parser": "^6.18.0",
+    "eslint": "8.47.0",
+    "eslint-config-next": "14.0.4",
+    "prettier": "^3.1.1",
     "prettier-config": "github:boyum/prettier-config",
-    "typescript": "5.1.5"
+    "typescript": "5.1.6"
   },
   "prettier": "prettier-config"
 }
