@@ -6,9 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "format:fix": "prettier --write .",
-    "format:check": "prettier --check ."
+    "lint": "biome check",
+    "lint:fix": "biome check --write"
   },
   "dependencies": {
     "count-words-occurrence": "^1.0.0",
@@ -17,16 +16,10 @@
     "utf8": "^3.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
     "@types/node": "20.10.7",
     "@types/react": "^18.3.3",
     "@types/utf8": "^3.0.3",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
-    "eslint": "8.57.0",
-    "eslint-config-next": "14.2.5",
-    "prettier": "^3.3.3",
-    "prettier-config": "github:boyum/prettier-config",
     "typescript": "5.4.5"
-  },
-  "prettier": "prettier-config"
+  }
 }
