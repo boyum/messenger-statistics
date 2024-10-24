@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { ConversationStatistics } from "../../helpers/file.helpers";
+import type { FC } from "react";
+import type { ConversationStatistics } from "../../helpers/file.helpers";
 import { Participants } from "../Participants/Participants";
 import styles from "./Summary.module.css";
 

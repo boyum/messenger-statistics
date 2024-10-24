@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import styles from "./Participant.module.css";
 
 type ParticipantProps = {

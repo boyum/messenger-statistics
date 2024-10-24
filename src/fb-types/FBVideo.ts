@@ -1,4 +1,4 @@
-import { FBVideoThumbnail } from "./FBVideoThumbnail";
+import type { FBVideoThumbnail } from "./FBVideoThumbnail";
 
 export type FBVideo = {
   uri: string;

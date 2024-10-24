@@ -1,8 +1,8 @@
-import { FC, lazy, useMemo } from "react";
+import { type FC, lazy, useMemo } from "react";
 import type { AxisOptions } from "react-charts";
 import { periodicDataToChartData } from "../../helpers/chart.helpers";
-import { LineChartData } from "../../types/LineChartData";
-import { PeriodType } from "../../types/PeriodType";
+import type { LineChartData } from "../../types/LineChartData";
+import type { PeriodType } from "../../types/PeriodType";
 
 type PeriodicChartProps = {
   data: Record<string, Record<number, number>>;

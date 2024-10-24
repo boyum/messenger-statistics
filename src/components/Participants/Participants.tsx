@@ -1,4 +1,4 @@
-import { FC, Fragment, useCallback } from "react";
+import { type FC, Fragment, useCallback } from "react";
 import { Participant } from "../Participant/Participant";
 
 // https://github.com/TanStack/react-charts/blob/beta/src/components/Chart.tsx#L40-L57

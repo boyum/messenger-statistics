@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { PeriodicChart } from "../components/PeriodicChart/PeriodicChart";
 import { Summary } from "../components/Summary/Summary";
 import {
-  ConversationStatistics,
+  type ConversationStatistics,
   parseFile,
   readConversations,
 } from "../helpers/file.helpers";

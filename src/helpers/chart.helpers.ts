@@ -1,6 +1,6 @@
 import type { UserSerie } from "react-charts";
-import { LineChartData } from "../types/LineChartData";
-import { PeriodType } from "../types/PeriodType";
+import type { LineChartData } from "../types/LineChartData";
+import type { PeriodType } from "../types/PeriodType";
 
 const dayNames = {
   0: "Søndag",
