@@ -1,10 +1,10 @@
 import * as fs from "fs";
 import { join } from "path";
 import { promisify } from "util";
-import { FBConversation } from "./fb-types/FBConversation";
-import { FBMessage } from "./fb-types/FBMessage";
-import { FBParticipant } from "./fb-types/FBParticipant";
-import { CountedWords } from "./types/CountedWords";
+import type { FBConversation } from "./fb-types/FBConversation";
+import type { FBMessage } from "./fb-types/FBMessage";
+import type { FBParticipant } from "./fb-types/FBParticipant";
+import type { CountedWords } from "./types/CountedWords";
 
 const readFile = promisify(fs.readFile);
 
@@ -110,10 +110,7 @@ async function readFiles(files: string[]) {
   );
 }
 
-function formatCountedWords(
-  words: CountedWords,
-  showTotal: boolean = true,
-): string {
+function formatCountedWords(words: CountedWords, showTotal = true): string {
   const total = Object.entries(words).reduce(
     (sum, [_, count]) => sum + count,
     0,

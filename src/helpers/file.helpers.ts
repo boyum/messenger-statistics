@@ -1,8 +1,8 @@
 import { decode } from "utf8";
-import { FBConversation } from "../fb-types/FBConversation";
-import { FBMessage } from "../fb-types/FBMessage";
-import { FBParticipant } from "../fb-types/FBParticipant";
-import { CountedWords } from "../types/CountedWords";
+import type { FBConversation } from "../fb-types/FBConversation";
+import type { FBMessage } from "../fb-types/FBMessage";
+import type { FBParticipant } from "../fb-types/FBParticipant";
+import type { CountedWords } from "../types/CountedWords";
 
 export type ConversationStatistics = {
   participants: Array<string>;
